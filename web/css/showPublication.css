@@ -1,0 +1,112 @@
+#ficha{
+    width:80%;
+    margin-left: 10%;
+    margin-top: 5%;
+    display:flex;
+}
+#ficha img{
+    width: 40%;
+    height:40%;
+}
+#ficha div{
+    width:60%;
+    padding: 0 8%;
+}
+
+#ficha div div{
+    width:100%;
+    margin-top: 5%;
+}
+#ficha div footer{
+    margin-top: 15%;
+}
+#ficha div div form{
+    width:50%;
+}
+
+#ficha div div form input[type="submit"]{
+    color: white;
+    font-weight: bold;
+    font-size: 15px;
+    border:none;
+    width:100%;
+    padding:7%;
+    transition: all 0.3s;
+}
+#ficha div div form input[type="submit"]:hover{
+    opacity:0.8;
+}
+#ficha div div form:nth-child(1){
+    text-align: right;
+}
+#ficha div div form:nth-child(2){
+    text-align: left;
+}
+#ficha div div form:nth-child(1) input[type="submit"]{
+    background: #1B2925;
+}
+#ficha div div form:nth-child(2) input[type="submit"]{
+    background: #D10024;
+}
+
+#comentarios{
+    width:80%;
+    margin-left: 10%;
+    margin-top: 10%;
+}
+#comentarios div{
+    text-align: left;
+    margin-top: 8%;
+}
+#comentarios div:nth-of-type(1){
+    text-align: left;
+    margin-top: 0%;
+}
+#comentarios div div{
+    margin:0;
+    background: #EBDB8E;
+    padding: 2%;
+    border-radius: 10px;
+}
+#comentarios form{
+    margin-top: 5%;
+    width:80%;
+    margin-left: 10%;
+}
+#comentarios form input{
+    border:none;
+    background: #D10024;
+    padding:2%;
+    color:white;
+    font-weight: bold;
+    font-family: arial;
+    transition: all 0.3s;
+}
+#comentarios form input:hover{
+    opacity: 0.7;
+    transition: all 0.3s;
+}
+#makeCommentContent{
+    width:100%;
+    resize:none;
+}
+
+#reportes section input {
+    border:none;
+    background: #FCC83B  ;
+    padding:1%;
+    color:white;
+    font-weight: bold;
+    font-family: arial;
+    transition: all 0.3s;
+}
+
+#reportes section input:hover{
+    opacity: 0.7;
+    transition: all 0.3s;
+}
+
+#textarea {
+    resize: none;
+    max-height: 40%;
+}

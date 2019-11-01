@@ -1,0 +1,75 @@
+#productsList{
+    border: solid 1px gray;
+    border-collapse: collapse;
+    width:60%;
+    margin-left: 20%;
+    margin-top: 2%;
+}
+
+#productsList tr{
+    border: solid 1px gray;
+}
+#productsList tr td{
+    text-align: center;
+}
+#productsList tr td:first-child{
+    text-align: center;
+    width: 25%;
+    padding: 2%;
+}
+#productsList tr td:nth-child(2) form input{
+    background: transparent;
+    border:none;
+    font-weight: bold;
+    font-size: 20px;
+    transition:all 0.3s;
+}
+#productsList tr td:nth-child(2) form input:hover{
+    transition:all 0.3s;
+    color:#D10024;
+}
+#productsList tr td img{
+    width: 100%;
+    margin: 5% 0;
+    box-shadow: 0px 0px 5px black; 
+}
+#productsList tr td:nth-child(4){
+    width:5%;
+}
+#productsList tr td:nth-child(5){
+    width:5%;
+}
+#productsList tr td form{
+    width:100%;
+}
+.deleteInput{
+    width:100%;
+}
+#actions{
+    width:60%;
+    margin-left: 20%;
+    margin-top: 3%;
+    display: flex;
+}
+#actions h3{
+    width:40%;
+}
+#actions div{
+    width: 60%;
+    display: flex;
+}
+#actions div form{
+    width: 50%;
+}
+#actions div form input{
+    width: 100%;
+    padding: 5% 3%;
+    border:none;
+    background: #1e1f29;
+    font-weight: bold;
+    color:white;
+}
+
+#actions div form:nth-child(2) input{
+    background: #D10024;
+}

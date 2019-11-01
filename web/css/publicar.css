@@ -1,0 +1,39 @@
+#publicar{
+    background: #D10024;
+    padding:2%;
+    border:none;
+    color:white;
+    font-size: 15px;
+    font-weight: bold;
+    font-family: arial;
+    margin-top: 5%;
+}
+
+#cancelar{
+    background: #1B2925;
+    padding:2%;
+    border:none;
+    color:white;
+    font-size: 15px;
+    font-weight: bold;
+    font-family: arial;
+    margin-top: 5%;
+}
+
+#contenedorInputFile{
+    border:1px solid #393939;
+    width:100%;
+    display: block;
+    text-align: center;
+}
+
+#contenedorInputFile input[type="file"]{
+    margin-left:30%;
+    width:40%;
+    margin-top:2%;
+}
+
+#imageContainer{
+    width:40%;
+    margin-left:30%;
+}
