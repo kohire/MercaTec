@@ -6,5 +6,27 @@
 	 version="3.1">
   <welcome-file-list>  
         <welcome-file>index.jsp</welcome-file>
-  </welcome-file-list>  
+  </welcome-file-list>
+  
+    <context-param>
+        <param-name>authtoken</param-name>
+        <param-value>LZHvkrH0BUSvJfFr1ek5QZ2cnhc8mJOra8n7wmjqjmao4pcfdQ-v3KbFswq</param-value>
+    </context-param>
+    
+    <context-param>
+        <param-name>posturl</param-name>
+        <param-value>https://www.sandbox.paypal.com/mep/dashboard</param-value>
+    </context-param>
+    
+    <context-param>
+        <param-name>business</param-name>
+        <param-value>espinoza.amaro@gmail.com</param-value>
+    </context-param>
+    
+    <context-param>
+        <param-name>returnurl</param-name>
+        <param-value>http://localhost:8084/MercaTec/index.jsp</param-value>
+    </context-param>
+      
 </web-app>
+
