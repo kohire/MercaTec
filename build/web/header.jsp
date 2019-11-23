@@ -34,7 +34,7 @@
 </head>
 <header>
     <%!
-        double total;
+        double total,supertotal;
         GestorBD queryCarrito = new GestorBD();
         Carrito carrito;
     %> 
@@ -164,10 +164,25 @@
                                             Ver carrito
                                         </button>
                                     </form>
-                                    <form action="carrito">
+                                    <!--<form action="carrito">
                                         <button value="buy" name="buy">
                                             Comprar
                                         </button>
+                                    </form>-->
+                                    <!--DOLAR 19.92-->
+                                    <% 
+                                        supertotal = total / 19.9238;
+                                    %>
+                                    <form action="${initParam['posturl']}" method="POST">
+                                        <input type="hidden" name="upload" value="1">
+                                        <input type="hidden" name="return" value="${initParam['returnurl']}">
+                                        <input type="hidden" name="cmd" value="_cart">
+                                        <input type="hidden" name="business" value="${initParam['business']}">
+
+                                        <input type="hidden" name="item_name_1" value="Compra en MercaTec">
+                                        <input type="hidden" name="amount_1" value="<%= supertotal%>">
+                                        <input type="hidden" name="quantity_1" value="1">
+                                        <button type="submit">Comprar</button>
                                     </form>
                                 </div>
                             </div>

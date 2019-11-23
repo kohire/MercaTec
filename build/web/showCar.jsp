@@ -15,7 +15,7 @@
         <jsp:include page="header.jsp" />
         
         <%!
-            double total;
+            double total, supertotal;
             GestorBD queryCarrito = new GestorBD();
             Carrito carrito;
             int idUser = -1;
@@ -72,9 +72,20 @@
                 </form>
                 <%
                     if(carrito.getProductos().size()>0){%>
-                        <form action="#" method="post">
-                            <input type="submit" value="Finalizar compra" />
-                        </form>
+                        <% 
+                                        supertotal = total / 19.9238;
+                                    %>
+                                    <form action="${initParam['posturl']}" method="POST">
+                                        <input type="hidden" name="upload" value="1">
+                                        <input type="hidden" name="return" value="${initParam['returnurl']}">
+                                        <input type="hidden" name="cmd" value="_cart">
+                                        <input type="hidden" name="business" value="${initParam['business']}">
+
+                                        <input type="hidden" name="item_name_1" value="Compra en MercaTec">
+                                        <input type="hidden" name="amount_1" value="<%= supertotal%>">
+                                        <input type="hidden" name="quantity_1" value="1">
+                                        <input type="submit" value="Finalizar Compra">
+                                    </form>
                     <%}
                     carrito.getProductos().clear();
                 %>

@@ -10,7 +10,7 @@ import java.util.List;
 
 public class GestorBD {
 
-    private  Connection conexion;
+    private final  Connection conexion;
     private ResultSet rs;
     private Statement st;
     private Producto producto;
@@ -21,7 +21,7 @@ public class GestorBD {
 
     private PreparedStatement ps;
     private PreparedStatement psAux;
-    private ResultSet result;
+  
 
     public String typeUser = "";
     private Usuario usuario;
@@ -34,9 +34,11 @@ public class GestorBD {
     public int getUsuario(String us, String pass) {
         int id = 0;
         try {
-            System.out.println("us:" +us+ " pass:" + pass);
-            String sql = "SELECT idUsuario, tipo FROM Usuario WHERE usuario = '" + us + "' AND contraseña = '" + pass + "' AND estado = 1";
+            
+            String sql = "CALL getUsuario(?,?)";
             ps = conexion.prepareStatement(sql);
+            ps.setString(1, us);
+            ps.setString(2, pass);
             rs = ps.executeQuery();
             if (rs.next()) {
                 id = rs.getInt("idUsuario");
@@ -53,11 +55,15 @@ public class GestorBD {
     public String getNameUser(int id) {
         String aux = "";
         try {
-            st = conexion.createStatement();
-            rs = st.executeQuery("SELECT nombre FROM Usuario WHERE idUsuario =" + id);
+           String sql = "CALL getNameUser(?)";
+           ps = conexion.prepareStatement(sql);
+           ps.setInt(1, id);
+           rs = ps.executeQuery();
             while (rs.next()) {
                 aux = rs.getString("nombre");
             }
+            rs.close();
+            st.close();
             return aux;
         } catch (Exception e) {
             e.printStackTrace();
@@ -141,8 +147,7 @@ public class GestorBD {
     }  
     public boolean insertUser(Usuario usuario) {
         try {
-            String sql = "INSERT INTO Usuario(idUsuario, nombre, usuario, contraseña, tipo, correo, estado) VALUES \n"
-                    + "(NULL, ?,?,?,?,?,?);";
+            String sql = "CALL insertUser(?,?,?,?,?,?)";
             ps = conexion.prepareStatement(sql);
             ps.setString(1, usuario.getNombre());
             ps.setString(2, usuario.getUsuario());
@@ -162,8 +167,9 @@ public class GestorBD {
 
     public boolean deleteUser(int id) {
         try {
-            String sql = "DELETE FROM Usuario WHERE idUsuario =" + id;
-            ps = conexion.prepareCall(sql);
+            String sql = "CALL deleteUser(?)";
+            ps = conexion.prepareStatement(sql);
+            ps.setInt(1, id);
             ps.execute();
             ps.close();
             return true;
@@ -176,8 +182,9 @@ public class GestorBD {
     
     public boolean deleteTheirProducts(int id) {
         try {
-            String sql = "DELETE FROM Productos WHERE idUsuario =" + id;
-            ps = conexion.prepareCall(sql);
+             String sql = "CALL deleteTheirProducts(?)";
+            ps = conexion.prepareStatement(sql);
+            ps.setInt(1, id);
             ps.execute();
             ps.close();
             return true;
@@ -189,8 +196,9 @@ public class GestorBD {
     }
     public boolean deleteTheirComments(int id) {
         try {
-            String sql = "DELETE FROM Comentarios WHERE idUsuario =" + id;
-            ps = conexion.prepareCall(sql);
+            String sql = "CALL deleteTheirComments(?)";
+            ps = conexion.prepareStatement(sql);
+            ps.setInt(1, id);
             ps.execute();
             ps.close();
             return true;
@@ -222,8 +230,7 @@ public class GestorBD {
 
     public boolean insertReport(Reportes rep){
         try {
-            String sql = "INSERT INTO Reporte(idReporte, idUsuario, idProducto, motivo, descripcion) VALUES \n"
-                    + "(NULL,?,?,?,?);";
+            String sql = "CALL insertReport(?,?,?,?)";
             ps = conexion.prepareStatement(sql);
             ps.setInt(1, rep.getIdUsuario());
             ps.setInt(2, rep.getIdProducto());
@@ -243,8 +250,9 @@ public class GestorBD {
     
     public boolean deleteReport(int id) {
         try {
-            String sql = "DELETE FROM Reporte WHERE idReporte =" + id;
-            ps = conexion.prepareCall(sql);
+            String sql = "CALL deleteReport(?)";
+            ps = conexion.prepareStatement(sql);
+            ps.setInt(1, id);
             ps.execute();
             ps.close();
             return true;
@@ -258,8 +266,11 @@ public class GestorBD {
     public List<Reportes> getUniqueReport(int id) {
         List<Reportes> reports = new ArrayList<>();
         try {
-            st = conexion.createStatement();
-            rs = st.executeQuery("SELECT * FROM Reporte WHERE idReporte =" + id);
+            String sql = "CALL selectReport(?)";
+            ps = conexion.prepareStatement(sql);
+            ps.setInt(1, id);
+            ps.execute();
+            rs = ps.executeQuery();
             while (rs.next()) {
                 Reportes rep = new Reportes();
                 rep.setIdReporte(rs.getInt(1));
@@ -281,8 +292,9 @@ public class GestorBD {
 
       public boolean deleteSameReports(int id){
         try{
-           String sql = "DELETE FROM Reporte WHERE idProducto =" + id;
-            ps = conexion.prepareCall(sql);
+           String sql = "CALL deleteSameReports(?)";
+            ps = conexion.prepareStatement(sql);
+            ps.setInt(1, id);
             ps.execute();
             ps.close();
             return true;
@@ -294,7 +306,7 @@ public class GestorBD {
     // Carrito, parte 1.
     public boolean insertUserCar(int idUser) {
         try {
-            String sql = "INSERT INTO Carrito(idCarrito,idUsuario) VALUES (NULL,?)";
+            String sql = "CALL insertUserCar(?)";
             ps = conexion.prepareStatement(sql);
             ps.setInt(1, idUser);
             ps.execute();
@@ -309,7 +321,7 @@ public class GestorBD {
 
     public boolean deleteUserCar(int idCarrito) {
         try {
-            String sql = "DELETE FROM Carrito WHERE idCarrito = ?";
+            String sql = "CALL deleteUserCar(?)";
             ps = conexion.prepareStatement(sql);
             ps.setInt(1, idCarrito);
             ps.execute();
@@ -324,7 +336,7 @@ public class GestorBD {
     public int getIDCar(int idUser) {
         int idCar = 0;
         try {
-            String sql = "SELECT idCarrito FROM Carrito WHERE idUsuario = ?";
+            String sql = "CALL getUserCar(?)";
             ps = conexion.prepareStatement(sql);
             ps.setInt(1, idUser);
             rs = ps.executeQuery();
@@ -344,6 +356,7 @@ public class GestorBD {
     // Carrrito y Productos, parte 2.
     public ArrayList<Producto> selectProducts(int id) {
         productos = new ArrayList();
+        System.out.println(id);
         try {
             if (id != -1) {
                 ps = conexion.prepareStatement("select * from productos where idUsuario=?");
@@ -352,18 +365,18 @@ public class GestorBD {
                 ps = conexion.prepareStatement("select * from productos");
             }
 
-            result = ps.executeQuery();
-            while (result.next()) {
+            rs = ps.executeQuery();
+            while (rs.next()) {
                 producto = new Producto(
-                        result.getInt(1),
-                        result.getString(3),
-                        result.getBlob(4),
-                        result.getString(5),
-                        result.getDouble(6),
-                        result.getInt(7),
-                        result.getInt(8)
+                        rs.getInt(1),
+                        rs.getString(3),
+                        rs.getBlob(4),
+                        rs.getString(5),
+                        rs.getDouble(6),
+                        rs.getInt(7),
+                        rs.getInt(8)
                 );
-                producto.setIdUsuario(result.getInt(2));
+                producto.setIdUsuario(rs.getInt(2));
                 productos.add(producto);
 
             }
@@ -375,20 +388,21 @@ public class GestorBD {
 
     public Producto selectProduct(int id) {
         try {
-            ps = conexion.prepareStatement("select * from productos where idProducto=?");
+            String sql = "CALL selectProduct(?)";
+            ps = conexion.prepareStatement(sql);
             ps.setInt(1, id);
-            result = ps.executeQuery();
-            if (result.next()) {
+            rs = ps.executeQuery();
+            if (rs.next()) {
                 producto = new Producto(
-                        result.getInt(1),
-                        result.getString(3),
-                        result.getBlob(4),
-                        result.getString(5),
-                        result.getDouble(6),
-                        result.getInt(7),
-                        result.getInt(8)
+                        rs.getInt(1),
+                        rs.getString(3),
+                        rs.getBlob(4),
+                        rs.getString(5),
+                        rs.getDouble(6),
+                        rs.getInt(7),
+                        rs.getInt(8)
                 );
-                producto.setIdUsuario(result.getInt(2));
+                producto.setIdUsuario(rs.getInt(2));
             }
         } catch (SQLException ex) {
             System.out.println(ex);
@@ -401,28 +415,19 @@ public class GestorBD {
         carrito = new Carrito();
         try {
             int idPC = 0;
-            ps = conexion.prepareStatement("select productos_carrito.id,productos.idProducto"
-                    + ", productos.nombreProd, "
-                    + "productos.imagenProd, productos.descripcion, productos.precio,"
-                    + " productos.existencia, productos.unidades "
-                    + "from Productos_Carrito inner join carrito "
-                    + "on carrito.idCarrito = Productos_Carrito.idCarrito inner join usuario "
-                    + "on carrito.idUsuario = usuario.idUsuario inner join productos "
-                    + "on Productos_Carrito.idProducto = productos.idProducto "
-                    + "where usuario.idUsuario = ?"
-            );
+            ps = conexion.prepareStatement("CALL selectCarrito(?)");
             ps.setInt(1, id);
-            result = ps.executeQuery();
-            while (result.next()) {
+            rs = ps.executeQuery();
+            while (rs.next()) {
                 productos.add(new Producto(
-                        result.getInt(1),
-                        result.getInt(2),
-                        result.getString(3),
-                        result.getBlob(4),
-                        result.getString(5),
-                        result.getDouble(6),
-                        result.getInt(7),
-                        result.getInt(8)
+                        rs.getInt(1),
+                        rs.getInt(2),
+                        rs.getString(3),
+                        rs.getBlob(4),
+                        rs.getString(5),
+                        rs.getDouble(6),
+                        rs.getInt(7),
+                        rs.getInt(8)
                 ));
             }
             carrito.setProductos(productos);
@@ -438,13 +443,12 @@ public class GestorBD {
                     + " where idUsuario=?"
             );
             ps.setInt(1, idUsuario);
-            result = ps.executeQuery();
+            rs = ps.executeQuery();
             int idCarrito = 0;
-            if (result.next()) {
-                idCarrito = result.getInt(1);
+            if (rs.next()) {
+                idCarrito = rs.getInt(1);
             }
-            ps = conexion.prepareStatement("insert into productos_carrito (idCarrito,idProducto)"
-                    + " values(?,?)");
+            ps = conexion.prepareStatement("CALL insertProductCarrito(?,?)");
             ps.setInt(1, idCarrito);
             ps.setInt(2, idProducto);
             ps.execute();
@@ -455,8 +459,7 @@ public class GestorBD {
 
     public void deleteProductCarrito(int idPC) {
         try {
-            ps = conexion.prepareStatement("delete from productos_carrito"
-                    + " where id=?");
+            ps = conexion.prepareStatement("CALL deleteProductCarrito(?)");
             ps.setInt(1, idPC);
             if (ps.executeUpdate() != 0) {
                 System.out.println("Eliminado del carrito");
@@ -470,19 +473,19 @@ public class GestorBD {
         productos = new ArrayList();
         try {
             ps = conexion.prepareStatement("select * from productos");
-            result = ps.executeQuery();
-            while (result.next()) {
-                if (result.getString(3).toLowerCase().contains(productoS.toLowerCase())) {
+            rs = ps.executeQuery();
+            while (rs.next()) {
+                if (rs.getString(3).toLowerCase().contains(productoS.toLowerCase())) {
                     producto = new Producto(
-                            result.getInt(1),
-                            result.getString(3),
-                            result.getBlob(4),
-                            result.getString(5),
-                            result.getDouble(6),
-                            result.getInt(7),
-                            result.getInt(8)
+                            rs.getInt(1),
+                            rs.getString(3),
+                            rs.getBlob(4),
+                            rs.getString(5),
+                            rs.getDouble(6),
+                            rs.getInt(7),
+                            rs.getInt(8)
                     );
-                    producto.setIdUsuario(result.getInt(2));
+                    producto.setIdUsuario(rs.getInt(2));
                     productos.add(producto);
                 }
 
@@ -495,23 +498,14 @@ public class GestorBD {
 
     public void insertProduct(int id, Producto producto) {
         try {
-            ps = conexion.prepareStatement("insert into productos ("
-                    + "idUsuario,"
-                    + "nombreProd,"
-                    + "imagenProd,"
-                    + "descripcion,"
-                    + "precio,"
-                    + "existencia,"
-                    + "unidades"
-                    + ") values ("
-                    + "?,?,?,?,?,1,?"
-                    + ")");
+            ps = conexion.prepareStatement("CALL insertProduct(?,?,?,?,?,?,?)");
             ps.setInt(1, id);
             ps.setString(2, producto.getNombreProd());
             ps.setBytes(3, producto.getImage().getBytes());
             ps.setString(4, producto.getDecripción());
             ps.setDouble(5, producto.getPrecio());
-            ps.setInt(6, producto.getUnidades());
+            ps.setInt(6, 1);
+            ps.setInt(7, producto.getUnidades());
             if (ps.executeUpdate() != 0) {
                 System.out.println("Producto insertado exitoso");
             }
@@ -522,7 +516,7 @@ public class GestorBD {
 
     public void deleteProduct(int idProducto) {
         try {
-            ps = conexion.prepareStatement("delete from productos where idProducto=?");
+            ps = conexion.prepareStatement("CALL deleteProduct(?)");
             ps.setInt(1, idProducto);
             if (ps.executeUpdate() != 0) {
                 System.out.println("Eliminado");
@@ -534,14 +528,8 @@ public class GestorBD {
 
     public void modifyProduct(Producto producto) {
         try {
-            ps = conexion.prepareStatement("update productos set "
-                    + "nombreProd=?,"
-                    + "imagenProd=?,"
-                    + "descripcion=?,"
-                    + "precio=?,"
-                    + "existencia=?,"
-                    + "unidades=? where idProducto=?"
-            );
+            ps = conexion.prepareStatement(
+            "CALL updateProduct(?,?,?,?,?,?,?)");
             ps.setString(1, producto.getNombreProd());
             ps.setBytes(2, producto.getImage().getBytes());
             ps.setString(3, producto.getDecripción());
@@ -550,22 +538,23 @@ public class GestorBD {
             ps.setInt(6, producto.getUnidades());
             ps.setInt(7, producto.getIdProducto());
             if (ps.executeUpdate() != 0) {
-                System.out.println("Producto insertado exitoso");
+                System.out.println("Producto modificado exitoso");
             }
         } catch (SQLException ex) {
             System.out.println(ex);
+            ex.printStackTrace();
         }
     }
 
     public Usuario showUsuarioProduct(int idUsuario) {
         usuario = new Usuario();
         try {
-            ps = conexion.prepareStatement("select * from usuario where idUsuario=?");
+            ps = conexion.prepareStatement("CALL showUserProduct(?)");
             ps.setInt(1, idUsuario);
-            result = ps.executeQuery();
-            if (result.next()) {
-                usuario.setNombre(result.getString(2));
-                usuario.setCorreo(result.getString(6));
+            rs = ps.executeQuery();
+            if (rs.next()) {
+                usuario.setNombre(rs.getString("usuario"));
+                usuario.setCorreo(rs.getString("correo"));
             }
         } catch (SQLException ex) {
             System.out.println(ex);
@@ -575,14 +564,15 @@ public class GestorBD {
     public ArrayList<Comentario> getComentarios(int idProducto){
         ArrayList<Comentario> comentarios = new ArrayList();
         try{
-            ps = conexion.prepareStatement("select comentario,idUsuario from comentarios where idProducto=?");
+            ps = conexion.prepareStatement("CALL getComments(?)");
             ps.setInt(1, idProducto);
             rs = ps.executeQuery();
             while(rs.next()){
+                String comment = rs.getString(1);
                 comentarios.add(
                         new Comentario(
                               this.showUsuarioProduct(rs.getInt(2)).getNombre(),
-                              rs.getString(1)
+                              comment
                         )
                 );
             }
@@ -594,8 +584,7 @@ public class GestorBD {
     
     public void comentar(int idProducto, int idUsuario, String comentario){
         try{
-            ps = conexion.prepareStatement("insert into comentarios (idUsuario,idProducto,comentario) "
-                    + "values(?,?,?)");
+            ps = conexion.prepareStatement("CALL insertComment(?,?,?)");
             ps.setInt(1, idUsuario);
             ps.setInt(2, idProducto);
             ps.setString(3, comentario);
@@ -611,12 +600,10 @@ public class GestorBD {
     
     public boolean wasBoughtByCustomer(int idUsuario, int idProducto){
         try {
-            ps = conexion.prepareStatement("select  productos_carrito.idProducto "+
-                    "from carrito inner join productos_carrito " +
-                    "on carrito.idCarrito = productos_carrito.idCarrito " +
-                    "where carrito.idUsuario=? and  productos_carrito.idProducto=?");
+            ps = conexion.prepareStatement("CALL wasBoughtByCustomer(?,?)");
             ps.setInt(1, idUsuario);
             ps.setInt(2, idProducto);
+            
             if(ps.executeQuery().next()){
                 return true;
             }else{

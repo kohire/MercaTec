@@ -55,7 +55,7 @@
                     if (admin.equals("Administrador")) {
 
                 %>
-                <span class="glyphicon glyphicon-trash" aria-hidden="true"></span>
+                
                 <td><a href="deletePR?idProd=<%= producto.getIdProducto()%>" class="btn btn-default"> Eliminar</a></td>
 
                 <% }%>

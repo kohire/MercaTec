@@ -94,12 +94,288 @@ ALTER TABLE Compra add foreign key (idCarrito) references Carrito(idCarrito);
 /* CLAVE FORÁNEA A PRODUCTOS*/
 ALTER TABLE Productos add foreign key (idUsuario) references Usuario(idUsuario);
 
-
+-- INICIO DE PROCEDIMIENTOS ALMACENADOS.
 CREATE PROCEDURE getNextIDUser()
  SELECT AUTO_INCREMENT
  FROM information_schema.TABLES
  WHERE TABLE_SCHEMA = "Mercatec"
  AND TABLE_NAME = "Usuario";
- 
 
- call getNextIdUser();
+DELIMITER $$
+DROP PROCEDURE IF EXISTS mercatec.getUsuario$$
+CREATE PROCEDURE mercatec.getUsuario
+		(IN a VARCHAR(30), b TEXT)
+BEGIN
+SELECT idUsuario, tipo FROM Usuario WHERE usuario = a AND contraseña = b AND estado = 1;
+END $$
+DELIMITER ; 
+
+DELIMITER $$
+DROP PROCEDURE IF EXISTS mercatec.getNameUser$$
+CREATE PROCEDURE mercatec.getNameUser
+		(IN id TINYINT)
+BEGIN
+SELECT nombre FROM Usuario WHERE idUsuario = id;
+END $$
+DELIMITER ; 
+
+-- No se usa este (getUsers).
+DELIMITER $$
+DROP PROCEDURE IF EXISTS mercatec.getUsers$$
+CREATE PROCEDURE mercatec.getUsers
+		(IN aux VARCHAR(40))
+BEGIN
+SET @consulta = CONCAT('SELECT * FROM Usuario WHERE estado = 1 AND
+		nombre LIKE ''%',aux,'%'' OR usuario LIKE ''%',aux,'%''');
+PREPARE ejecutar FROM @consulta;
+EXECUTE ejecutar;
+END $$
+DELIMITER ; 
+
+DELIMITER $$
+DROP PROCEDURE IF EXISTS mercatec.insertUser$$
+CREATE PROCEDURE mercatec.insertUser
+		(IN  nombre VARCHAR(50),
+			 usuario VARCHAR(20),
+			 contraseña TEXT,
+			 tipo VARCHAR(20),
+		 	 correo VARCHAR(40),
+			 estado TINYINT(1))
+BEGIN
+INSERT INTO Usuario(nombre, usuario, contraseña, tipo, correo, estado) VALUES 
+					(nombre, usuario, contraseña, tipo, correo, estado);
+END $$
+DELIMITER ; 
+
+DELIMITER $$
+DROP PROCEDURE IF EXISTS mercatec.deleteUser$$
+CREATE PROCEDURE mercatec.deleteUser
+		(IN id TINYINT)
+BEGIN
+DELETE FROM Usuario WHERE idUsuario = id;
+END $$
+DELIMITER ; 
+
+DELIMITER $$
+DROP PROCEDURE IF EXISTS mercatec.deleteTheirProducts$$
+CREATE PROCEDURE mercatec.deleteTheirProducts
+		(IN id TINYINT)
+BEGIN
+DELETE FROM Productos WHERE idUsuario = id;
+END $$
+DELIMITER ; 
+
+DELIMITER $$
+DROP PROCEDURE IF EXISTS mercatec.deleteTheirComments$$
+CREATE PROCEDURE mercatec.deleteTheirComments
+		(IN id TINYINT)
+BEGIN
+DELETE FROM Comentarios WHERE idUsuario = id;
+END $$
+DELIMITER ; 
+
+DELIMITER $$
+DROP PROCEDURE IF EXISTS mercatec.insertReport$$
+CREATE PROCEDURE mercatec.insertReport
+		(IN idUsuario INT(5),
+			idProducto INT(5),
+			motivo VARCHAR(20),
+			descripcion TEXT(500))
+BEGIN
+INSERT INTO Reporte(idUsuario, idProducto, motivo, descripcion) VALUES 
+					(idUsuario, idProducto, motivo, descripcion);
+END $$
+DELIMITER ; 
+
+DELIMITER $$
+DROP PROCEDURE IF EXISTS mercatec.deleteReport$$
+CREATE PROCEDURE mercatec.deleteReport
+		(IN id TINYINT)
+BEGIN
+DELETE FROM Reporte WHERE idReporte = id;
+END $$
+DELIMITER ; 
+
+DELIMITER $$
+DROP PROCEDURE IF EXISTS mercatec.selectReport$$
+CREATE PROCEDURE mercatec.selectReport
+		(IN id TINYINT)
+BEGIN
+SELECT * FROM Reporte WHERE idReporte = id;
+END $$
+DELIMITER ; 
+
+DELIMITER $$
+DROP PROCEDURE IF EXISTS mercatec.deleteSameReports$$
+CREATE PROCEDURE mercatec.deleteSameReports
+		(IN id TINYINT)
+BEGIN
+DELETE FROM Reporte WHERE idProducto = id;
+END $$
+DELIMITER ; 
+
+DELIMITER $$
+DROP PROCEDURE IF EXISTS mercatec.deleteUserCar$$
+CREATE PROCEDURE mercatec.deleteUserCar
+		(IN id TINYINT)
+BEGIN
+DELETE FROM Carrito WHERE idCarrito = id;
+END $$
+DELIMITER ; 
+
+DELIMITER $$
+DROP PROCEDURE IF EXISTS mercatec.insertUserCar$$
+CREATE PROCEDURE mercatec.insertUserCar
+		(IN idUsuario TINYINT)
+BEGIN
+INSERT INTO Carrito(idUsuario) VALUES (idUsuario);
+END $$
+DELIMITER ; 
+
+DELIMITER $$
+DROP PROCEDURE IF EXISTS mercatec.getUserCar$$
+CREATE PROCEDURE mercatec.getUserCar
+		(IN idUsuario TINYINT)
+BEGIN
+SELECT idCarrito FROM Carrito WHERE idUsuario = id;
+END $$
+DELIMITER ; 
+
+DELIMITER $$
+DROP PROCEDURE IF EXISTS mercatec.selectProduct$$
+CREATE PROCEDURE mercatec.selectProduct
+		(IN id TINYINT)
+BEGIN
+SELECT * FROM Productos WHERE idProducto = id;
+END $$
+DELIMITER ; 
+
+
+DELIMITER $$
+DROP PROCEDURE IF EXISTS mercatec.selectCarrito$$
+CREATE PROCEDURE mercatec.selectCarrito
+		(IN id TINYINT)
+BEGIN
+SELECT  productos_carrito.id,productos.idProducto, productos.nombreProd, 
+		productos.imagenProd, productos.descripcion, productos.precio, 
+        productos.existencia, productos.unidades
+        FROM Productos_Carrito INNER JOIN carrito 
+        ON carrito.idCarrito = productos_carrito.idCarrito INNER JOIN usuario 
+		ON carrito.idUsuario = usuario.idUsuario INNER JOIN productos
+		ON Productos_Carrito.idProducto = productos.idProducto
+        WHERE usuario.idUsuario = id;
+END $$
+DELIMITER ; 
+
+DELIMITER $$
+DROP PROCEDURE IF EXISTS mercatec.insertProductCarrito$$
+CREATE PROCEDURE mercatec.insertProductCarrito
+		(IN idCarrito TINYINT, idProducto TINYINT)
+BEGIN
+INSERT INTO productos_carrito(idCarrito, idProducto) VALUES (idCarrito, idProducto);
+END $$
+DELIMITER ; 
+
+DELIMITER $$
+DROP PROCEDURE IF EXISTS mercatec.deleteProductCarrito$$
+CREATE PROCEDURE mercatec.deleteProductCarrito
+		(IN id TINYINT)
+BEGIN
+DELETE FROM productos_carrito WHERE id = id;
+END $$
+DELIMITER ; 
+
+
+DELIMITER $$
+DROP PROCEDURE IF EXISTS mercatec.insertProduct$$
+CREATE PROCEDURE mercatec.insertProduct
+		(IN idUsuario INT(5),
+			nombreProd VARCHAR(30),
+			imagenProd LONGBLOB, 
+			descripcion VARCHAR(70), 
+			precio INT,
+			existencia INT,
+			unidades INT)
+BEGIN
+INSERT INTO Productos (idUsuario,nombreProd,imagenProd,descripcion, 
+						precio, existencia, unidades) VALUES
+                        (idUsuario,nombreProd,imagenProd,descripcion, 
+						precio, existencia, unidades);
+END $$
+DELIMITER ; 
+
+DELIMITER $$
+DROP PROCEDURE IF EXISTS mercatec.deleteProduct$$
+CREATE PROCEDURE mercatec.deleteProduct
+		(IN id TINYINT)
+BEGIN
+DELETE FROM Productos WHERE idProducto = id;
+END $$
+DELIMITER ; 
+
+DELIMITER $$
+DROP PROCEDURE IF EXISTS mercatec.updateProduct$$
+CREATE PROCEDURE mercatec.updateProduct
+		(IN 
+			nombreProd VARCHAR(30),
+			imagenProd LONGBLOB, 
+			descripcion VARCHAR(70), 
+			precio INT,
+			existencia INT,
+			unidades INT,
+            id TINYINT)
+BEGIN
+UPDATE Productos SET 
+					nombreProd  = nombreProd,
+					imagenProd  = imagenProd,
+					descripcion = descripcion, 
+					precio      = precio,
+					existencia  = existencia,
+					unidades = unidades
+				  WHERE idProducto = id;
+END $$
+DELIMITER ; 
+
+DELIMITER $$
+DROP PROCEDURE IF EXISTS mercatec.showUserProduct$$
+CREATE PROCEDURE mercatec.showUserProduct
+		(IN id TINYINT)
+BEGIN
+SELECT * FROM Usuario WHERE idUsuario = id;
+END $$
+DELIMITER ; 
+
+DELIMITER $$
+DROP PROCEDURE IF EXISTS mercatec.getComments$$
+CREATE PROCEDURE mercatec.getComments
+		(IN id TINYINT)
+BEGIN
+SELECT comentario,idUsuario FROM Comentarios WHERE idProducto = id;
+END $$
+DELIMITER ; 
+
+DELIMITER $$
+DROP PROCEDURE IF EXISTS mercatec.insertComment$$
+CREATE PROCEDURE mercatec.insertComment
+		(IN idUsuario INT(5),idProducto INT(5),comentario VARCHAR(100))
+BEGIN
+INSERT INTO Comentarios (idUsuario, idProducto, comentario) VALUES
+                       (idUsuario, idProducto, comentario);
+END $$
+DELIMITER ; 
+
+DELIMITER $$
+DROP PROCEDURE IF EXISTS mercatec.wasBoughtByCustomer$$
+CREATE PROCEDURE mercatec.wasBoughtByCustomer
+		(IN idUsuario TINYINT,  idProducto TINYINT)
+BEGIN
+SELECT  productos_carrito.idProducto
+                    FROM carrito INNER JOIN productos_carrito
+                    ON carrito.idCarrito = productos_carrito.idCarrito 
+                    WHERE carrito.idUsuario = idUsuario
+                    AND  productos_carrito.idProducto = idProducto;
+END $$
+DELIMITER ; 
+
+
+
