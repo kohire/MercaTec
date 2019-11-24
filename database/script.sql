@@ -235,11 +235,12 @@ DELIMITER ;
 DELIMITER $$
 DROP PROCEDURE IF EXISTS mercatec.getUserCar$$
 CREATE PROCEDURE mercatec.getUserCar
-		(IN idUsuario TINYINT)
+		(IN id TINYINT)
 BEGIN
 SELECT idCarrito FROM Carrito WHERE idUsuario = id;
 END $$
 DELIMITER ; 
+
 
 DELIMITER $$
 DROP PROCEDURE IF EXISTS mercatec.selectProduct$$
@@ -376,6 +377,3 @@ SELECT  productos_carrito.idProducto
                     AND  productos_carrito.idProducto = idProducto;
 END $$
 DELIMITER ; 
-
-
-

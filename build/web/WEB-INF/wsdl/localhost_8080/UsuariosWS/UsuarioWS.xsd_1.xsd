@@ -1,0 +1,151 @@
+<?xml version='1.0' encoding='UTF-8'?><!-- Published by JAX-WS RI at http://jax-ws.dev.java.net. RI's version is JAX-WS RI 2.2-hudson-740-. --><xs:schema xmlns:tns="http://usuarios.mercatec/" xmlns:xs="http://www.w3.org/2001/XMLSchema" version="1.0" targetNamespace="http://usuarios.mercatec/">
+
+<xs:element name="deleteTheirComments" type="tns:deleteTheirComments" />
+
+<xs:element name="deleteTheirCommentsResponse" type="tns:deleteTheirCommentsResponse" />
+
+<xs:element name="deleteTheirProducts" type="tns:deleteTheirProducts" />
+
+<xs:element name="deleteTheirProductsResponse" type="tns:deleteTheirProductsResponse" />
+
+<xs:element name="deleteUser" type="tns:deleteUser" />
+
+<xs:element name="deleteUserCar" type="tns:deleteUserCar" />
+
+<xs:element name="deleteUserCarResponse" type="tns:deleteUserCarResponse" />
+
+<xs:element name="deleteUserResponse" type="tns:deleteUserResponse" />
+
+<xs:element name="getIDCar" type="tns:getIDCar" />
+
+<xs:element name="getIDCarResponse" type="tns:getIDCarResponse" />
+
+<xs:element name="insertUser" type="tns:insertUser" />
+
+<xs:element name="insertUserCar" type="tns:insertUserCar" />
+
+<xs:element name="insertUserCarResponse" type="tns:insertUserCarResponse" />
+
+<xs:element name="insertUserResponse" type="tns:insertUserResponse" />
+
+<xs:element name="nickname" type="tns:nickname" />
+
+<xs:element name="nicknameResponse" type="tns:nicknameResponse" />
+
+<xs:element name="user" type="tns:user" />
+
+<xs:element name="userResponse" type="tns:userResponse" />
+
+<xs:complexType name="deleteTheirProducts">
+<xs:sequence>
+<xs:element name="id" type="xs:int" />
+</xs:sequence>
+</xs:complexType>
+
+<xs:complexType name="deleteTheirProductsResponse">
+<xs:sequence>
+<xs:element name="return" type="xs:boolean" />
+</xs:sequence>
+</xs:complexType>
+
+<xs:complexType name="insertUser">
+<xs:sequence>
+<xs:element name="nombre" type="xs:string" minOccurs="0" />
+<xs:element name="usuario" type="xs:string" minOccurs="0" />
+<xs:element name="contrasena" type="xs:string" minOccurs="0" />
+<xs:element name="tipo" type="xs:string" minOccurs="0" />
+<xs:element name="correo" type="xs:string" minOccurs="0" />
+</xs:sequence>
+</xs:complexType>
+
+<xs:complexType name="insertUserResponse">
+<xs:sequence>
+<xs:element name="return" type="xs:boolean" />
+</xs:sequence>
+</xs:complexType>
+
+<xs:complexType name="getIDCar">
+<xs:sequence>
+<xs:element name="id" type="xs:int" />
+</xs:sequence>
+</xs:complexType>
+
+<xs:complexType name="getIDCarResponse">
+<xs:sequence>
+<xs:element name="return" type="xs:int" />
+</xs:sequence>
+</xs:complexType>
+
+<xs:complexType name="nickname">
+<xs:sequence>
+<xs:element name="nickname" type="xs:string" minOccurs="0" />
+</xs:sequence>
+</xs:complexType>
+
+<xs:complexType name="nicknameResponse">
+<xs:sequence>
+<xs:element name="return" type="xs:string" minOccurs="0" />
+</xs:sequence>
+</xs:complexType>
+
+<xs:complexType name="deleteUser">
+<xs:sequence>
+<xs:element name="id" type="xs:int" />
+</xs:sequence>
+</xs:complexType>
+
+<xs:complexType name="deleteUserResponse">
+<xs:sequence>
+<xs:element name="return" type="xs:boolean" />
+</xs:sequence>
+</xs:complexType>
+
+<xs:complexType name="deleteUserCar">
+<xs:sequence>
+<xs:element name="id" type="xs:int" />
+</xs:sequence>
+</xs:complexType>
+
+<xs:complexType name="deleteUserCarResponse">
+<xs:sequence>
+<xs:element name="return" type="xs:boolean" />
+</xs:sequence>
+</xs:complexType>
+
+<xs:complexType name="user">
+<xs:sequence>
+<xs:element name="usuario" type="xs:string" minOccurs="0" />
+<xs:element name="contraseña" type="xs:string" minOccurs="0" />
+</xs:sequence>
+</xs:complexType>
+
+<xs:complexType name="userResponse">
+<xs:sequence>
+<xs:element name="return" type="xs:int" />
+</xs:sequence>
+</xs:complexType>
+
+<xs:complexType name="deleteTheirComments">
+<xs:sequence>
+<xs:element name="id" type="xs:int" />
+</xs:sequence>
+</xs:complexType>
+
+<xs:complexType name="deleteTheirCommentsResponse">
+<xs:sequence>
+<xs:element name="return" type="xs:boolean" />
+</xs:sequence>
+</xs:complexType>
+
+<xs:complexType name="insertUserCar">
+<xs:sequence>
+<xs:element name="id" type="xs:int" />
+</xs:sequence>
+</xs:complexType>
+
+<xs:complexType name="insertUserCarResponse">
+<xs:sequence>
+<xs:element name="return" type="xs:boolean" />
+</xs:sequence>
+</xs:complexType>
+</xs:schema>

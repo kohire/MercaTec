@@ -1,10 +1,8 @@
 package Controller;
 
-import Model.GestorBD;
 import Model.MD5;
 import java.io.IOException;
 import java.io.PrintWriter;
-import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServletRequest;
@@ -31,9 +29,9 @@ public class Validation extends HttpServlet {
             //Encriptacion!!!!
             MD5 md5 = new MD5(pass);
             // Llamar al gestor de base de datos para realizar la búsqueda.
-                     GestorBD gestor = new GestorBD();
-             int id  = gestor.getUsuario(usuario, md5.getHashedpasswd().toString());
-             String aux = gestor.typeUser;
+                     
+             int id  = login(usuario, md5.getHashedpasswd().toString());
+             String aux = userType();
             if(id != 0){
                 // Si regresa algo que no sea -1, se crea una sesión de usuario.
                 // y se obtiene su id con su tipo de usuario.
@@ -46,4 +44,17 @@ public class Validation extends HttpServlet {
                 request.getRequestDispatcher("/login.jsp").forward(request, response);
             }
     }
+
+    private static int login(java.lang.String nombre, java.lang.String pass) {
+        mercatec.login.LoginWS_Service service = new mercatec.login.LoginWS_Service();
+        mercatec.login.LoginWS port = service.getLoginWSPort();
+        return port.login(nombre, pass);
+    }
+
+    private static String userType() {
+        mercatec.login.LoginWS_Service service = new mercatec.login.LoginWS_Service();
+        mercatec.login.LoginWS port = service.getLoginWSPort();
+        return port.userType();
+    }
+    
 }

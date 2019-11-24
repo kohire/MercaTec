@@ -24,7 +24,7 @@ public MD5(String password){
                 if(hx.length() == 1){hx = "0" + hx;}
                 hashedpasswd.append(hx);
         }
-        System.out.println("tu password PEEEEEEEROOOOO HAAAASHH "+hashedpasswd.toString());
+        System.out.println(hashedpasswd.toString());
     } catch (NoSuchAlgorithmException ex) {
         Logger.getLogger(MD5.class.getName()).log(Level.SEVERE, null, ex);
     }

@@ -5,7 +5,6 @@
  */
 package Controller;
 
-import Model.GestorBD;
 import java.io.IOException;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -31,15 +30,15 @@ public class deleteUser extends HttpServlet {
      */
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        GestorBD query = new GestorBD();
+        
         try {
             int idUser = Integer.parseInt(request.getParameter("id"));
-            int aux = query.getIDCar(idUser);
+            int aux = getIDCar(idUser);
             
-            if(query.deleteUserCar(aux)){
-                query.deleteUser(idUser);
-                query.deleteTheirProducts(idUser);
-                query.deleteTheirComments(idUser);
+            if(deleteUserCar(aux)){
+                deleteUser(idUser);
+                deleteTheirProducts(idUser);
+                deleteTheirComments(idUser);
                 request.getRequestDispatcher("/listUsers.jsp").forward(request, response);
             }
         } catch (Exception e) {
@@ -86,4 +85,38 @@ public class deleteUser extends HttpServlet {
         return "Short description";
     }// </editor-fold>
 
+    private static int getIDCar(int id) {
+        mercatec.usuarios.UsuarioWS_Service service = new mercatec.usuarios.UsuarioWS_Service();
+        mercatec.usuarios.UsuarioWS port = service.getUsuarioWSPort();
+        return port.getIDCar(id);
+    }
+
+    private static boolean deleteUserCar(int id) {
+        mercatec.usuarios.UsuarioWS_Service service = new mercatec.usuarios.UsuarioWS_Service();
+        mercatec.usuarios.UsuarioWS port = service.getUsuarioWSPort();
+        return port.deleteUserCar(id);
+    }
+
+    private static boolean deleteUser(int id) {
+        mercatec.usuarios.UsuarioWS_Service service = new mercatec.usuarios.UsuarioWS_Service();
+        mercatec.usuarios.UsuarioWS port = service.getUsuarioWSPort();
+        return port.deleteUser(id);
+    }
+
+    private static boolean deleteTheirProducts(int id) {
+        mercatec.usuarios.UsuarioWS_Service service = new mercatec.usuarios.UsuarioWS_Service();
+        mercatec.usuarios.UsuarioWS port = service.getUsuarioWSPort();
+        return port.deleteTheirProducts(id);
+    }
+
+    private static boolean deleteTheirComments(int id) {
+        mercatec.usuarios.UsuarioWS_Service service = new mercatec.usuarios.UsuarioWS_Service();
+        mercatec.usuarios.UsuarioWS port = service.getUsuarioWSPort();
+        return port.deleteTheirComments(id);
+    }
+
+    
+    
+    
+    
 }
