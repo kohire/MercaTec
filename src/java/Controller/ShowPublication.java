@@ -3,7 +3,6 @@ package Controller;
 import Model.GestorBD;
 import Model.Producto;
 import java.io.IOException;
-import java.io.PrintWriter;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -56,7 +55,7 @@ public class ShowPublication extends HttpServlet {
                 
                 idProducto = Integer.parseInt(request.getParameter("addCar"));
                 for(int i=0;i<numberItems;i++){
-                    query.insertProductCarrito(
+                    insertProductCarrito(
                             idUsuario
                             ,idProducto);
                 }
@@ -115,5 +114,15 @@ public class ShowPublication extends HttpServlet {
         mercatec.comentarios.ComentarioWS port = service.getComentarioWSPort();
         port.comentar(idUsuario, idProducto, comentario);
     }
+
+    private static void insertProductCarrito(int idUsuario, int idProducto) {
+        mercatec.carrito.CarritoWS_Service service = new mercatec.carrito.CarritoWS_Service();
+        mercatec.carrito.CarritoWS port = service.getCarritoWSPort();
+        port.insertProductCarrito(idUsuario, idProducto);
+    }
+    
+    
+    
+    
 
 }

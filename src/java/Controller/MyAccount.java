@@ -5,7 +5,6 @@
  */
 package Controller;
 
-import Model.GestorBD;
 import Model.Producto;
 import java.awt.image.BufferedImage;
 import java.io.ByteArrayOutputStream;
@@ -27,24 +26,14 @@ import javax.servlet.http.Part;
 @WebServlet(name = "MyAccount", urlPatterns = {"/MyAccount"})
 @MultipartConfig
 public class MyAccount extends HttpServlet {
-
-    /**
-     * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
-     * methods.
-     *
-     * @param request servlet request
-     * @param response servlet response
-     * @throws ServletException if a servlet-specific error occurs
-     * @throws IOException if an I/O error occurs
-     */
+    
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
-        GestorBD query = new GestorBD();
         BufferedImage image = null;
         Producto producto;
         if(request.getParameter("idDelete")!=null){
-            query.deleteProduct(Integer.parseInt(request.getParameter("idDelete")));
+            deleteProduct(Integer.parseInt(request.getParameter("idDelete")));
             response.sendRedirect("myPublication.jsp");
         }else if(request.getParameter("idEdit")!=null){
                 producto = new Producto(
@@ -72,32 +61,57 @@ public class MyAccount extends HttpServlet {
                     System.out.println(e);
                 }
             if(image!=null){
-                producto = new Producto(
+                modifyProduct(
                     request.getParameter("nombre"),
                     text,
                     request.getParameter("descripcion"),
                     Double.parseDouble(request.getParameter("precio")),
                     1,
-                    Integer.parseInt(request.getParameter("unidades"))
+                    Integer.parseInt(request.getParameter("unidades")),
+                    Integer.parseInt(request.getParameter("id"))
                 );
             }else{
-                producto = new Producto(
+                modifyProductByImageInBlank(
                     request.getParameter("nombre"),
                     request.getParameter("imageActualValue"),
                     request.getParameter("descripcion"),
                     Double.parseDouble(request.getParameter("precio")),
                     1,
-                    Integer.parseInt(request.getParameter("unidades"))
+                    Integer.parseInt(request.getParameter("unidades")),
+                    Integer.parseInt(request.getParameter("id"))
                 );
-                producto.setImage(producto.getImageClear());
             }
-            producto.setIdProducto(Integer.parseInt(request.getParameter("id")));
-            query.modifyProduct(producto);
             response.sendRedirect("myPublication.jsp");
         }
         
     }
 
+        private static void modifyProduct(java.lang.String nombre,
+            java.lang.String text, java.lang.String descripcion,
+            double precio, int existencia, int unidades, int idProd) {
+        mercatec.productos.ProductoWS_Service service = 
+                new mercatec.productos.ProductoWS_Service();
+        mercatec.productos.ProductoWS port = service.getProductoWSPort();
+        port.modifyProduct(nombre, text, descripcion, precio, existencia,
+                unidades, idProd);
+    }
+
+    private static void modifyProductByImageInBlank(java.lang.String nombre,
+            java.lang.String text, java.lang.String descripcion, double precio,
+            int existencia, int unidades, int idProd) {
+        mercatec.productos.ProductoWS_Service service = 
+                new mercatec.productos.ProductoWS_Service();
+        mercatec.productos.ProductoWS port = service.getProductoWSPort();
+        port.modifyProductByImageInBlank(nombre, text, descripcion, precio,
+                existencia, unidades, idProd);
+    }
+
+      private static void deleteProduct(int id) {
+        mercatec.productos.ProductoWS_Service service = new mercatec.productos.ProductoWS_Service();
+        mercatec.productos.ProductoWS port = service.getProductoWSPort();
+        port.deleteProduct(id);
+    }
+    
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
     /**
      * Handles the HTTP <code>GET</code> method.
@@ -136,5 +150,7 @@ public class MyAccount extends HttpServlet {
     public String getServletInfo() {
         return "Short description";
     }// </editor-fold>
+
+  
 
 }

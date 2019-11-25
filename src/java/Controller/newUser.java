@@ -5,9 +5,7 @@
  */
 package Controller;
 
-import Model.GestorBD;
 import Model.MD5;
-import Model.Usuario;
 import java.io.IOException;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -26,7 +24,6 @@ public class newUser extends HttpServlet {
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         String id = request.getParameter("id");
-        int aux = Integer.parseInt(id);
         String nombre = request.getParameter("nombre");
         String usuario = request.getParameter("usuario");
         String contraseña = request.getParameter("pass");

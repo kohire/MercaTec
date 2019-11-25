@@ -106,5 +106,21 @@
         <delete dir="${build.generated.sources.dir}/jax-ws/mercatec/carrito"/>
         <delete dir="${build.generated.dir}/jax-wsCache/CarritoWS"/>
     </target>
-    <target name="wsimport-client-generate" depends="wsimport-client-loginWS, wsimport-client-UsuarioWS, wsimport-client-ComentarioWS, wsimport-client-ReportesWS, wsimport-client-CarritoWS"/>
+    <target name="wsimport-client-ProductoWS" depends="wsimport-init">
+        <mkdir dir="${build.generated.dir}/jax-wsCache/ProductoWS"/>
+        <wsimport sourcedestdir="${build.generated.dir}/jax-wsCache/ProductoWS" destdir="${build.generated.dir}/jax-wsCache/ProductoWS" wsdl="${basedir}/${conf-dir}xml-resources/web-service-references/ProductoWS/wsdl/localhost_8080/ProductosWS/ProductoWS.wsdl" catalog="catalog.xml" encoding="${source.encoding}" extension="true" verbose="true" fork="false" wsdlLocation="http://localhost:8080/ProductosWS/ProductoWS?wsdl" xnocompile="true" xendorsed="true">
+            <depends file="${basedir}/${conf-dir}xml-resources/web-service-references/ProductoWS/wsdl/localhost_8080/ProductosWS/ProductoWS.wsdl"/>
+            <produces dir="${build.generated.dir}/jax-wsCache/ProductoWS"/>
+        </wsimport>
+        <copy todir="${build.generated.sources.dir}/jax-ws">
+            <fileset dir="${build.generated.dir}/jax-wsCache/ProductoWS">
+                <include name="**/*.java"/>
+            </fileset>
+        </copy>
+    </target>
+    <target name="wsimport-client-clean-ProductoWS" depends="-init-project">
+        <delete dir="${build.generated.sources.dir}/jax-ws/mercatec/productos"/>
+        <delete dir="${build.generated.dir}/jax-wsCache/ProductoWS"/>
+    </target>
+    <target name="wsimport-client-generate" depends="wsimport-client-loginWS, wsimport-client-UsuarioWS, wsimport-client-ComentarioWS, wsimport-client-ReportesWS, wsimport-client-CarritoWS, wsimport-client-ProductoWS"/>
 </project>

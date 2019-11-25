@@ -10,4 +10,6 @@
     <system systemId="http://localhost:8080/ReportesWS/ReportesWS?xsd=1" uri="src/conf/xml-resources/web-service-references/ReportesWS/wsdl/localhost_8080/ReportesWS/ReportesWS.xsd_1.xsd"/>
     <system systemId="http://localhost:8080/CarritoWS/CarritoWS?wsdl" uri="src/conf/xml-resources/web-service-references/CarritoWS/wsdl/localhost_8080/CarritoWS/CarritoWS.wsdl"/>
     <system systemId="http://localhost:8080/CarritoWS/CarritoWS?xsd=1" uri="src/conf/xml-resources/web-service-references/CarritoWS/wsdl/localhost_8080/CarritoWS/CarritoWS.xsd_1.xsd"/>
+    <system systemId="http://localhost:8080/ProductosWS/ProductoWS?wsdl" uri="src/conf/xml-resources/web-service-references/ProductoWS/wsdl/localhost_8080/ProductosWS/ProductoWS.wsdl"/>
+    <system systemId="http://localhost:8080/ProductosWS/ProductoWS?xsd=1" uri="src/conf/xml-resources/web-service-references/ProductoWS/wsdl/localhost_8080/ProductosWS/ProductoWS.xsd_1.xsd"/>
 </catalog>

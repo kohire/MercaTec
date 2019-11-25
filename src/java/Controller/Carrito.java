@@ -39,7 +39,6 @@ public class Carrito extends HttpServlet {
                 response.setIntHeader("Refresh", 1);
             }else if(request.getParameter("idDelete")!=null){
                 if(!request.getParameter("searchValue").equals("")){
-                    System.out.println("ENTREEEEE desde busqueda");
                     deleteProductCarrito(Integer.parseInt(request.getParameter("idDelete")));
                     String searchValue = request.getParameter("searchValue");
                     ArrayList<Producto> productos = queries.searchProducto(

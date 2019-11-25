@@ -1,0 +1,70 @@
+<?xml version='1.0' encoding='UTF-8'?><!-- Published by JAX-WS RI at http://jax-ws.dev.java.net. RI's version is JAX-WS RI 2.2-hudson-740-. --><xs:schema xmlns:tns="http://productos.mercatec/" xmlns:xs="http://www.w3.org/2001/XMLSchema" version="1.0" targetNamespace="http://productos.mercatec/">
+
+<xs:element name="deleteProduct" type="tns:deleteProduct" />
+
+<xs:element name="deleteProductResponse" type="tns:deleteProductResponse" />
+
+<xs:element name="insertProduct" type="tns:insertProduct" />
+
+<xs:element name="modifyProduct" type="tns:modifyProduct" />
+
+<xs:element name="modifyProductByImageInBlank" type="tns:modifyProductByImageInBlank" />
+
+<xs:element name="modifyProductByImageInBlankResponse" type="tns:modifyProductByImageInBlankResponse" />
+
+<xs:element name="modifyProductResponse" type="tns:modifyProductResponse" />
+
+<xs:complexType name="modifyProductByImageInBlank">
+<xs:sequence>
+<xs:element name="nombre" type="xs:string" minOccurs="0" />
+<xs:element name="text" type="xs:string" minOccurs="0" />
+<xs:element name="descripcion" type="xs:string" minOccurs="0" />
+<xs:element name="precio" type="xs:double" />
+<xs:element name="existencia" type="xs:int" />
+<xs:element name="unidades" type="xs:int" />
+<xs:element name="idProd" type="xs:int" />
+</xs:sequence>
+</xs:complexType>
+
+<xs:complexType name="modifyProductByImageInBlankResponse">
+<xs:sequence />
+</xs:complexType>
+
+<xs:complexType name="insertProduct">
+<xs:sequence>
+<xs:element name="id" type="xs:int" />
+<xs:element name="nombre" type="xs:string" minOccurs="0" />
+<xs:element name="text" type="xs:string" minOccurs="0" />
+<xs:element name="descripcion" type="xs:string" minOccurs="0" />
+<xs:element name="precio" type="xs:double" />
+<xs:element name="existencia" type="xs:int" />
+<xs:element name="unidades" type="xs:int" />
+</xs:sequence>
+</xs:complexType>
+
+<xs:complexType name="modifyProduct">
+<xs:sequence>
+<xs:element name="nombre" type="xs:string" minOccurs="0" />
+<xs:element name="text" type="xs:string" minOccurs="0" />
+<xs:element name="descripcion" type="xs:string" minOccurs="0" />
+<xs:element name="precio" type="xs:double" />
+<xs:element name="existencia" type="xs:int" />
+<xs:element name="unidades" type="xs:int" />
+<xs:element name="idProd" type="xs:int" />
+</xs:sequence>
+</xs:complexType>
+
+<xs:complexType name="modifyProductResponse">
+<xs:sequence />
+</xs:complexType>
+
+<xs:complexType name="deleteProduct">
+<xs:sequence>
+<xs:element name="id" type="xs:int" />
+</xs:sequence>
+</xs:complexType>
+
+<xs:complexType name="deleteProductResponse">
+<xs:sequence />
+</xs:complexType>
+</xs:schema>

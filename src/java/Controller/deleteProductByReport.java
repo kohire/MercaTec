@@ -5,9 +5,7 @@
  */
 package Controller;
 
-import Model.GestorBD;
 import java.io.IOException;
-import java.io.PrintWriter;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -21,24 +19,14 @@ import javax.servlet.http.HttpServletResponse;
 @WebServlet(name = "deletePR", urlPatterns = {"/deletePR"})
 public class deleteProductByReport extends HttpServlet {
 
-    /**
-     * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
-     * methods.
-     *
-     * @param request servlet request
-     * @param response servlet response
-     * @throws ServletException if a servlet-specific error occurs
-     * @throws IOException if an I/O error occurs
-     */
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        
-        GestorBD query = new GestorBD();
+       
         int idProd = 0;
         try{
             idProd =  Integer.parseInt(request.getParameter("idProd"));
             if(deleteSameReports(idProd)){
-                 query.deleteProduct(idProd); //Me falta este XD
+                 deleteProduct(idProd); //Me falta este XD
                  System.out.println("Borré el producto: " + idProd + " en la BD.");
                  request.getRequestDispatcher("/index.jsp").forward(request, response);
             }
@@ -92,5 +80,16 @@ public class deleteProductByReport extends HttpServlet {
         mercatec.reportes.ReportesWS port = service.getReportesWSPort();
         return port.deleteSameReports(id);
     }
+
+    private static void deleteProduct(int id) {
+        mercatec.productos.ProductoWS_Service service = new mercatec.productos.ProductoWS_Service();
+        mercatec.productos.ProductoWS port = service.getProductoWSPort();
+        port.deleteProduct(id);
+    }
+    
+    
+    
+    
+    
 
 }

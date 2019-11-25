@@ -38,7 +38,7 @@ public class Search extends HttpServlet {
         GestorBD queries = new GestorBD();
         if (request.getParameter("id") != null) {
             if ((int)request.getSession().getAttribute("id") != -1) {
-                queries.insertProductCarrito(
+                insertProductCarrito(
                         Integer.parseInt(request.getSession().getAttribute("id")
                                 .toString()), Integer.parseInt(request.getParameter("id")));
                 refreshSearch(request, response);
@@ -67,6 +67,12 @@ public class Search extends HttpServlet {
         request.setAttribute("productos", productos);
         request.setAttribute("searchValue", searchValue);
         request.getRequestDispatcher("search.jsp").forward(request, response);
+    }
+    
+        private static void insertProductCarrito(int idUsuario, int idProducto) {
+        mercatec.carrito.CarritoWS_Service service = new mercatec.carrito.CarritoWS_Service();
+        mercatec.carrito.CarritoWS port = service.getCarritoWSPort();
+        port.insertProductCarrito(idUsuario, idProducto);
     }
     
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
@@ -107,5 +113,7 @@ public class Search extends HttpServlet {
     public String getServletInfo() {
         return "Short description";
     }// </editor-fold>
+
+
 
 }
