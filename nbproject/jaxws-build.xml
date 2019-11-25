@@ -58,5 +58,53 @@
         <delete dir="${build.generated.sources.dir}/jax-ws/mercatec/usuarios"/>
         <delete dir="${build.generated.dir}/jax-wsCache/UsuarioWS"/>
     </target>
-    <target name="wsimport-client-generate" depends="wsimport-client-loginWS, wsimport-client-UsuarioWS"/>
+    <target name="wsimport-client-ComentarioWS" depends="wsimport-init">
+        <mkdir dir="${build.generated.dir}/jax-wsCache/ComentarioWS"/>
+        <wsimport sourcedestdir="${build.generated.dir}/jax-wsCache/ComentarioWS" destdir="${build.generated.dir}/jax-wsCache/ComentarioWS" wsdl="${basedir}/${conf-dir}xml-resources/web-service-references/ComentarioWS/wsdl/localhost_8080/ComentariosWS/ComentarioWS.wsdl" catalog="catalog.xml" encoding="${source.encoding}" extension="true" verbose="true" fork="false" wsdlLocation="http://localhost:8080/ComentariosWS/ComentarioWS?wsdl" xnocompile="true" xendorsed="true">
+            <depends file="${basedir}/${conf-dir}xml-resources/web-service-references/ComentarioWS/wsdl/localhost_8080/ComentariosWS/ComentarioWS.wsdl"/>
+            <produces dir="${build.generated.dir}/jax-wsCache/ComentarioWS"/>
+        </wsimport>
+        <copy todir="${build.generated.sources.dir}/jax-ws">
+            <fileset dir="${build.generated.dir}/jax-wsCache/ComentarioWS">
+                <include name="**/*.java"/>
+            </fileset>
+        </copy>
+    </target>
+    <target name="wsimport-client-clean-ComentarioWS" depends="-init-project">
+        <delete dir="${build.generated.sources.dir}/jax-ws/mercatec/comentarios"/>
+        <delete dir="${build.generated.dir}/jax-wsCache/ComentarioWS"/>
+    </target>
+    <target name="wsimport-client-ReportesWS" depends="wsimport-init">
+        <mkdir dir="${build.generated.dir}/jax-wsCache/ReportesWS"/>
+        <wsimport sourcedestdir="${build.generated.dir}/jax-wsCache/ReportesWS" destdir="${build.generated.dir}/jax-wsCache/ReportesWS" wsdl="${basedir}/${conf-dir}xml-resources/web-service-references/ReportesWS/wsdl/localhost_8080/ReportesWS/ReportesWS.wsdl" catalog="catalog.xml" encoding="${source.encoding}" extension="true" verbose="true" fork="false" wsdlLocation="http://localhost:8080/ReportesWS/ReportesWS?wsdl" xnocompile="true" xendorsed="true">
+            <depends file="${basedir}/${conf-dir}xml-resources/web-service-references/ReportesWS/wsdl/localhost_8080/ReportesWS/ReportesWS.wsdl"/>
+            <produces dir="${build.generated.dir}/jax-wsCache/ReportesWS"/>
+        </wsimport>
+        <copy todir="${build.generated.sources.dir}/jax-ws">
+            <fileset dir="${build.generated.dir}/jax-wsCache/ReportesWS">
+                <include name="**/*.java"/>
+            </fileset>
+        </copy>
+    </target>
+    <target name="wsimport-client-clean-ReportesWS" depends="-init-project">
+        <delete dir="${build.generated.sources.dir}/jax-ws/mercatec/reportes"/>
+        <delete dir="${build.generated.dir}/jax-wsCache/ReportesWS"/>
+    </target>
+    <target name="wsimport-client-CarritoWS" depends="wsimport-init">
+        <mkdir dir="${build.generated.dir}/jax-wsCache/CarritoWS"/>
+        <wsimport sourcedestdir="${build.generated.dir}/jax-wsCache/CarritoWS" destdir="${build.generated.dir}/jax-wsCache/CarritoWS" wsdl="${basedir}/${conf-dir}xml-resources/web-service-references/CarritoWS/wsdl/localhost_8080/CarritoWS/CarritoWS.wsdl" catalog="catalog.xml" encoding="${source.encoding}" extension="true" verbose="true" fork="false" wsdlLocation="http://localhost:8080/CarritoWS/CarritoWS?wsdl" xnocompile="true" xendorsed="true">
+            <depends file="${basedir}/${conf-dir}xml-resources/web-service-references/CarritoWS/wsdl/localhost_8080/CarritoWS/CarritoWS.wsdl"/>
+            <produces dir="${build.generated.dir}/jax-wsCache/CarritoWS"/>
+        </wsimport>
+        <copy todir="${build.generated.sources.dir}/jax-ws">
+            <fileset dir="${build.generated.dir}/jax-wsCache/CarritoWS">
+                <include name="**/*.java"/>
+            </fileset>
+        </copy>
+    </target>
+    <target name="wsimport-client-clean-CarritoWS" depends="-init-project">
+        <delete dir="${build.generated.sources.dir}/jax-ws/mercatec/carrito"/>
+        <delete dir="${build.generated.dir}/jax-wsCache/CarritoWS"/>
+    </target>
+    <target name="wsimport-client-generate" depends="wsimport-client-loginWS, wsimport-client-UsuarioWS, wsimport-client-ComentarioWS, wsimport-client-ReportesWS, wsimport-client-CarritoWS"/>
 </project>

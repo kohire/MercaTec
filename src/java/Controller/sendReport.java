@@ -5,10 +5,7 @@
  */
 package Controller;
 
-import Model.GestorBD;
-import Model.Reportes;
 import java.io.IOException;
-import java.io.PrintWriter;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -33,8 +30,7 @@ public class sendReport extends HttpServlet {
      */
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        GestorBD query = new GestorBD();
-        
+       
         String idProducto = request.getParameter("idProd");
         int aux = Integer.parseInt(idProducto);
         String idUsuario = request.getParameter("idUs");
@@ -43,7 +39,7 @@ public class sendReport extends HttpServlet {
         String descripcion = request.getParameter("descripcion");
         
         try  {
-            if(query.insertReport(new Reportes(aux2,aux, motivo, descripcion))){
+            if(insertReport(aux2,aux, motivo, descripcion)){
                  response.sendRedirect("index.jsp");
             }
         } catch(IOException e){
@@ -91,5 +87,11 @@ public class sendReport extends HttpServlet {
     public String getServletInfo() {
         return "Short description";
     }// </editor-fold>
+
+    private static boolean insertReport(int idUsuario, int idProducto, java.lang.String motivo, java.lang.String descripcion) {
+        mercatec.reportes.ReportesWS_Service service = new mercatec.reportes.ReportesWS_Service();
+        mercatec.reportes.ReportesWS port = service.getReportesWSPort();
+        return port.insertReport(idUsuario, idProducto, motivo, descripcion);
+    }
 
 }

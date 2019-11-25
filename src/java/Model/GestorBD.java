@@ -17,12 +17,7 @@ public class GestorBD {
     private ArrayList<Producto> productos;
     //Arrays para carrito
     private Carrito carrito;
-    private ArrayList<Integer> claveProductos;
-
     private PreparedStatement ps;
-    private PreparedStatement psAux;
-  
-
     public String typeUser = "";
     private Usuario usuario;
 
@@ -263,25 +258,25 @@ public class GestorBD {
         }
     }
 
-    public List<Reportes> getUniqueReport(int id) {
+     public List<Reportes> getUniqueReport(int id) {
         List<Reportes> reports = new ArrayList<>();
         try {
             String sql = "CALL selectReport(?)";
             ps = conexion.prepareStatement(sql);
             ps.setInt(1, id);
-            ps.execute();
             rs = ps.executeQuery();
+             Reportes rep = new Reportes();
             while (rs.next()) {
-                Reportes rep = new Reportes();
-                rep.setIdReporte(rs.getInt(1));
-                rep.setIdUsuario(rs.getInt(2));
-                rep.setIdProducto(rs.getInt(3));
-                rep.setMotivo(rs.getString(4));
-                rep.setDescripcion(rs.getString(5));
+                rep.setIdReporte(rs.getInt("idReporte"));
+                rep.setIdUsuario(rs.getInt("idUsuario"));
+                rep.setIdProducto(rs.getInt("idProducto"));
+                rep.setMotivo(rs.getString("motivo"));
+                rep.setDescripcion(rs.getString("descripcion"));
                 reports.add(rep);
             }
-            rs.close();
-            st.close();
+            rs.close(); 
+            ps.close();
+            System.out.println(reports);
             return reports;
         } catch (SQLException e) {
             System.out.println("Exception caught in get reports: ");

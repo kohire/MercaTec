@@ -1,8 +1,3 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package Controller;
 
 import Model.GestorBD;
@@ -37,14 +32,15 @@ public class Carrito extends HttpServlet {
         GestorBD queries = new GestorBD();
         if((int)request.getSession().getAttribute("id")!= -1){
             if(request.getParameter("id")!=null){
-                queries.insertProductCarrito(
+                     insertProductCarrito(
                         Integer.parseInt(request.getSession().getAttribute("id").toString())
                         ,Integer.parseInt(request.getParameter("id")));
                 response.sendRedirect(request.getParameter("requestURL"));
+                response.setIntHeader("Refresh", 1);
             }else if(request.getParameter("idDelete")!=null){
                 if(!request.getParameter("searchValue").equals("")){
                     System.out.println("ENTREEEEE desde busqueda");
-                    queries.deleteProductCarrito(Integer.parseInt(request.getParameter("idDelete")));
+                    deleteProductCarrito(Integer.parseInt(request.getParameter("idDelete")));
                     String searchValue = request.getParameter("searchValue");
                     ArrayList<Producto> productos = queries.searchProducto(
                         searchValue
@@ -53,7 +49,7 @@ public class Carrito extends HttpServlet {
                     request.setAttribute("searchValue", searchValue);
                     request.getRequestDispatcher("search.jsp").forward(request, response);
                 }else if(!request.getParameter("idProductRequest").equals("0")){
-                    queries.deleteProductCarrito(Integer.parseInt(request.getParameter("idDelete")));
+                    deleteProductCarrito(Integer.parseInt(request.getParameter("idDelete")));
                     int idProductRequest = Integer.parseInt(request.getParameter("idProductRequest"));
                     Producto producto = queries.selectProduct(idProductRequest);
                     request.setAttribute("producto", producto);
@@ -61,18 +57,20 @@ public class Carrito extends HttpServlet {
                     request.getRequestDispatcher("showPublication.jsp").forward(request, response);
                 } else{
                     int prueba = Integer.parseInt(request.getParameter("idProductRequest"));
-                    queries.deleteProductCarrito(Integer.parseInt(request.getParameter("idDelete")));
+                    deleteProductCarrito(Integer.parseInt(request.getParameter("idDelete")));
                     response.sendRedirect(request.getParameter("requestURL"));
+                     response.setIntHeader("Refresh", 1);
                 }
             }else if(request.getParameter("show")!=null){
                 response.sendRedirect("showCar.jsp");
             }else if(request.getParameter("buy")!=null){
                 
             }else if(request.getParameter("idDeleteT")!=null){
-                queries.deleteProductCarrito(
+                  deleteProductCarrito(
                         Integer.parseInt(request.getParameter("idDeleteT"))
                 );
                 response.sendRedirect(request.getParameter("requestURL"));
+                 response.setIntHeader("Refresh", 1);
             }else if(request.getParameter("stillShopping")!=null){
                 response.sendRedirect("index.jsp");
             }
@@ -120,4 +118,18 @@ public class Carrito extends HttpServlet {
         return "Short description";
     }// </editor-fold>
 
+    private static void insertProductCarrito(int idUsuario, int idProducto) {
+        mercatec.carrito.CarritoWS_Service service = new mercatec.carrito.CarritoWS_Service();
+        mercatec.carrito.CarritoWS port = service.getCarritoWSPort();
+        port.insertProductCarrito(idUsuario, idProducto);
+    }
+
+    private static void deleteProductCarrito(int id) {
+        mercatec.carrito.CarritoWS_Service service = new mercatec.carrito.CarritoWS_Service();
+        mercatec.carrito.CarritoWS port = service.getCarritoWSPort();
+        port.deleteProductCarrito(id);
+    }
+
+    
+    
 }

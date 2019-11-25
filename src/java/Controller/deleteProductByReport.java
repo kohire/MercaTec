@@ -37,8 +37,8 @@ public class deleteProductByReport extends HttpServlet {
         int idProd = 0;
         try{
             idProd =  Integer.parseInt(request.getParameter("idProd"));
-            if(query.deleteSameReports(idProd)){
-                 query.deleteProduct(idProd);
+            if(deleteSameReports(idProd)){
+                 query.deleteProduct(idProd); //Me falta este XD
                  System.out.println("Borré el producto: " + idProd + " en la BD.");
                  request.getRequestDispatcher("/index.jsp").forward(request, response);
             }
@@ -86,5 +86,11 @@ public class deleteProductByReport extends HttpServlet {
     public String getServletInfo() {
         return "Short description";
     }// </editor-fold>
+
+    private static boolean deleteSameReports(int id) {
+        mercatec.reportes.ReportesWS_Service service = new mercatec.reportes.ReportesWS_Service();
+        mercatec.reportes.ReportesWS port = service.getReportesWSPort();
+        return port.deleteSameReports(id);
+    }
 
 }

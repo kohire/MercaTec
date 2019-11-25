@@ -31,8 +31,8 @@ public class showRep extends HttpServlet {
         System.out.println(id);
         if (id != 0 || id != -1) {
             Collection<Reportes> reporte = new ArrayList<Reportes>();
+            reporte = query.getUniqueReport(id);
             if (reporte != null) {
-                reporte = query.getUniqueReport(id);
                 String user = query.getNameUser(idUsuario);
                 request.setAttribute("idUsuario", user);
                 request.setAttribute("reportUnique", reporte);

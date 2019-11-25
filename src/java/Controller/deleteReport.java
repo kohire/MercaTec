@@ -5,9 +5,7 @@
  */
 package Controller;
 
-import Model.GestorBD;
 import java.io.IOException;
-import java.io.PrintWriter;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -34,18 +32,17 @@ public class deleteReport extends HttpServlet {
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
        
-        GestorBD query = new GestorBD();
         try {
             int idReport = Integer.parseInt(request.getParameter("id"));
            
-            if(query.deleteReport(idReport)){
+            if(deleteReport(idReport)){
                 request.getRequestDispatcher("/reports.jsp").forward(request, response);
             }
         } catch (Exception e) {
 
         }
     }
-
+    
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
     /**
      * Handles the HTTP <code>GET</code> method.
@@ -84,5 +81,11 @@ public class deleteReport extends HttpServlet {
     public String getServletInfo() {
         return "Short description";
     }// </editor-fold>
+
+    private static boolean deleteReport(int id) {
+        mercatec.reportes.ReportesWS_Service service = new mercatec.reportes.ReportesWS_Service();
+        mercatec.reportes.ReportesWS port = service.getReportesWSPort();
+        return port.deleteReport(id);
+    }
 
 }

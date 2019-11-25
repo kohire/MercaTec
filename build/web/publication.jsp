@@ -30,7 +30,6 @@
              <%
                 String admin =  session.getAttribute("type").toString();
                 if(admin.equals("Administrador")){
-                    System.out.println("Administrador entró aquí");
             %>
             <a href="<%= request.getContextPath() %>/reports.jsp "> Reportes</a>
             <a href="<%= request.getContextPath() %>/users.jsp "> Usuarios</a>
