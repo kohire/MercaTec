@@ -7,6 +7,8 @@
 <!DOCTYPE html>
 <head>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" pageEncoding="EUC-KR">
+    <script src="https://apis.google.com/js/platform.js" async defer></script>
+    <meta name="google-signin-client_id" content="1003778353887-d1ooo7vu2vgv43700n9pcqlgrk4d6b6k.apps.googleusercontent.com">
     <link rel="shortcut icon" href="<%= request.getContextPath()%>/img/gorro.ico" />
     <title>MercaTec</title>
     <!-- Google font -->
@@ -87,6 +89,35 @@
                             <form action="login.jsp">
                                 <input type="submit" value="Iniciar sesión"/>
                             </form>
+                    <div class="g-signin2" data-onsuccess="onSignIn" id="myP"></div>
+                    <img id="myImg"><br>
+                    <p id="name"></p>
+                    <div id="status">
+                 </div>
+                 <script type="text/javascript">
+                    function onSignIn(googleUser) {
+                    // window.location.href='success.jsp';
+                    var profile = googleUser.getBasicProfile();
+                    var imagurl=profile.getImageUrl();
+                    var name=profile.getName();
+                    var email=profile.getEmail();
+                    //document.getElementById("myImg").src = imagurl;
+                    document.getElementById("name").innerHTML = name;
+                    document.getElementById("myP").style.visibility = "hidden";
+                    //myFunction();
+                    document.getElementById("status").innerHTML = '<a href=userGmail.jsp?email='+email+'&name='+name+'/> Registrarte</a></p>';
+                 //myFunction();
+            }
+                 </script>
+                   <!--<button onclick="signOut();">Sign out</button>-->
+           <script>
+             function signOut() {
+               var auth2 = gapi.auth2.getAuthInstance();
+               auth2.signOut().then(function () {
+                 console.log('User signed out.');
+               });
+             }
+           </script>
                             <%
                                 } else {%>
                             <form action="myAccount.jsp">

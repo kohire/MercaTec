@@ -37,7 +37,7 @@ public class ShowPublication extends HttpServlet {
             idUsuario = Integer.parseInt(request.getParameter("idUsuario"));
             idProducto = Integer.parseInt(request.getParameter("idProducto"));
             System.out.println("Si ahuevo respondo :3");
-            comentar(idProducto, idUsuario, comentario);
+            comentar(idUsuario,idProducto, comentario);
             producto = query.selectProduct(idProducto);
                 request.setAttribute("producto", producto);
                 request.setAttribute("idProductRequest", producto.getIdProducto());
@@ -112,6 +112,7 @@ public class ShowPublication extends HttpServlet {
     private static void comentar(int idUsuario, int idProducto, java.lang.String comentario) {
         mercatec.comentarios.ComentarioWS_Service service = new mercatec.comentarios.ComentarioWS_Service();
         mercatec.comentarios.ComentarioWS port = service.getComentarioWSPort();
+        
         port.comentar(idUsuario, idProducto, comentario);
     }
 
@@ -120,9 +121,4 @@ public class ShowPublication extends HttpServlet {
         mercatec.carrito.CarritoWS port = service.getCarritoWSPort();
         port.insertProductCarrito(idUsuario, idProducto);
     }
-    
-    
-    
-    
-
 }
