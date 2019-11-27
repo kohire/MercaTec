@@ -106,7 +106,7 @@ DROP PROCEDURE IF EXISTS mercatec.getUsuario$$
 CREATE PROCEDURE mercatec.getUsuario
 		(IN a VARCHAR(30), b TEXT)
 BEGIN
-SELECT idUsuario, tipo FROM Usuario WHERE usuario = a AND contraseña = b AND estado = 1;
+SELECT idUsuario, tipo FROM Usuario WHERE usuario = a AND correo = b AND estado = 1;
 END $$
 DELIMITER ; 
 
@@ -388,11 +388,13 @@ DELIMITER ;
 DELIMITER $$
 DROP PROCEDURE IF EXISTS mercatec.selectCarritoAux$$
 CREATE PROCEDURE mercatec.selectCarritoAux
-		(IN idUsuario TINYINT)
+		(IN id TINYINT)
 BEGIN
-SELECT idCarrito FROM carrito WHERE idUsuario = idUsuario;
+SELECT idCarrito FROM carrito WHERE idUsuario = id;
 END $$
 DELIMITER ; 
+
+
 
 
 
