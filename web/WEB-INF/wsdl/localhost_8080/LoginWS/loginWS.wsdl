@@ -4,31 +4,31 @@
 <xsd:import namespace="http://login.mercatec/" schemaLocation="http://localhost:8080/LoginWS/loginWS?xsd=1" />
 </xsd:schema>
 </types>
-<message name="userType">
-<part name="parameters" element="tns:userType" />
-</message>
-<message name="userTypeResponse">
-<part name="parameters" element="tns:userTypeResponse" />
-</message>
 <message name="login">
 <part name="parameters" element="tns:login" />
 </message>
 <message name="loginResponse">
 <part name="parameters" element="tns:loginResponse" />
 </message>
+<message name="userType">
+<part name="parameters" element="tns:userType" />
+</message>
+<message name="userTypeResponse">
+<part name="parameters" element="tns:userTypeResponse" />
+</message>
 <portType name="loginWS">
-<operation name="userType">
-<input wsam:Action="http://login.mercatec/loginWS/userTypeRequest" message="tns:userType" />
-<output wsam:Action="http://login.mercatec/loginWS/userTypeResponse" message="tns:userTypeResponse" />
-</operation>
 <operation name="login">
 <input wsam:Action="http://login.mercatec/loginWS/loginRequest" message="tns:login" />
 <output wsam:Action="http://login.mercatec/loginWS/loginResponse" message="tns:loginResponse" />
 </operation>
+<operation name="userType">
+<input wsam:Action="http://login.mercatec/loginWS/userTypeRequest" message="tns:userType" />
+<output wsam:Action="http://login.mercatec/loginWS/userTypeResponse" message="tns:userTypeResponse" />
+</operation>
 </portType>
 <binding name="loginWSPortBinding" type="tns:loginWS">
 <soap:binding transport="http://schemas.xmlsoap.org/soap/http" style="document" />
-<operation name="userType">
+<operation name="login">
 <soap:operation soapAction="" />
 <input>
 <soap:body use="literal" />
@@ -37,7 +37,7 @@
 <soap:body use="literal" />
 </output>
 </operation>
-<operation name="login">
+<operation name="userType">
 <soap:operation soapAction="" />
 <input>
 <soap:body use="literal" />

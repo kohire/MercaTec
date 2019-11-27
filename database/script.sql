@@ -110,6 +110,8 @@ SELECT idUsuario, tipo FROM Usuario WHERE usuario = a AND contraseña = b AND es
 END $$
 DELIMITER ; 
 
+
+
 DELIMITER $$
 DROP PROCEDURE IF EXISTS mercatec.getNameUser$$
 CREATE PROCEDURE mercatec.getNameUser
@@ -273,16 +275,19 @@ DROP PROCEDURE IF EXISTS mercatec.insertProductCarrito$$
 CREATE PROCEDURE mercatec.insertProductCarrito
 		(IN idCarrito TINYINT, idProducto TINYINT)
 BEGIN
-INSERT INTO productos_carrito(idCarrito, idProducto) VALUES (idCarrito, idProducto);
+INSERT INTO productos_carrito(idCarrito, idProducto)
+						VALUES (idCarrito, idProducto);
 END $$
 DELIMITER ; 
+
+select * from productos_carrito;
 
 DELIMITER $$
 DROP PROCEDURE IF EXISTS mercatec.deleteProductCarrito$$
 CREATE PROCEDURE mercatec.deleteProductCarrito
-		(IN id TINYINT)
+		(IN idPC TINYINT)
 BEGIN
-DELETE FROM productos_carrito WHERE id = id;
+DELETE FROM productos_carrito WHERE id = idPC;
 END $$
 DELIMITER ; 
 
@@ -377,3 +382,19 @@ SELECT  productos_carrito.idProducto
                     AND  productos_carrito.idProducto = idProducto;
 END $$
 DELIMITER ; 
+
+
+
+DELIMITER $$
+DROP PROCEDURE IF EXISTS mercatec.selectCarritoAux$$
+CREATE PROCEDURE mercatec.selectCarritoAux
+		(IN idUsuario TINYINT)
+BEGIN
+SELECT idCarrito FROM carrito WHERE idUsuario = idUsuario;
+END $$
+DELIMITER ; 
+
+
+
+
+

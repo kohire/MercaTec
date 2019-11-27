@@ -25,6 +25,18 @@ public interface CarritoWS {
 
     /**
      * 
+     * @param id
+     */
+    @WebMethod
+    @Oneway
+    @RequestWrapper(localName = "deleteProductCarrito", targetNamespace = "http://carrito.mercatec/", className = "mercatec.carrito.DeleteProductCarrito")
+    @Action(input = "http://carrito.mercatec/CarritoWS/deleteProductCarrito")
+    public void deleteProductCarrito(
+        @WebParam(name = "id", targetNamespace = "")
+        int id);
+
+    /**
+     * 
      * @param idUsuario
      * @param idProducto
      */
@@ -37,17 +49,5 @@ public interface CarritoWS {
         int idUsuario,
         @WebParam(name = "idProducto", targetNamespace = "")
         int idProducto);
-
-    /**
-     * 
-     * @param id
-     */
-    @WebMethod
-    @Oneway
-    @RequestWrapper(localName = "deleteProductCarrito", targetNamespace = "http://carrito.mercatec/", className = "mercatec.carrito.DeleteProductCarrito")
-    @Action(input = "http://carrito.mercatec/CarritoWS/deleteProductCarrito")
-    public void deleteProductCarrito(
-        @WebParam(name = "id", targetNamespace = "")
-        int id);
 
 }

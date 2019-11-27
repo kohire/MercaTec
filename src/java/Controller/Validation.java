@@ -21,15 +21,15 @@ public class Validation extends HttpServlet {
             throws ServletException, IOException{
         response.setContentType("text/html;charset=UTF-8");
         PrintWriter out = response.getWriter();
-        
+            
             // Primero traerse los parámetros del html.
             String usuario = request.getParameter("user");
             String pass = request.getParameter("password");
-            
+           
             //Encriptacion!!!!
             MD5 md5 = new MD5(pass);
             // Llamar al gestor de base de datos para realizar la búsqueda.
-                     
+           
              int id  = login(usuario, md5.getHashedpasswd().toString());
              String aux = userType();
             if(id != 0){
@@ -49,6 +49,7 @@ public class Validation extends HttpServlet {
         mercatec.login.LoginWS_Service service = new mercatec.login.LoginWS_Service();
         mercatec.login.LoginWS port = service.getLoginWSPort();
         return port.login(nombre, pass);
+       
     }
 
     private static String userType() {

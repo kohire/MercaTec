@@ -36,7 +36,7 @@ public class Carrito extends HttpServlet {
                         Integer.parseInt(request.getSession().getAttribute("id").toString())
                         ,Integer.parseInt(request.getParameter("id")));
                 response.sendRedirect(request.getParameter("requestURL"));
-                response.setIntHeader("Refresh", 1);
+              
             }else if(request.getParameter("idDelete")!=null){
                 if(!request.getParameter("searchValue").equals("")){
                     deleteProductCarrito(Integer.parseInt(request.getParameter("idDelete")));
@@ -58,7 +58,7 @@ public class Carrito extends HttpServlet {
                     int prueba = Integer.parseInt(request.getParameter("idProductRequest"));
                     deleteProductCarrito(Integer.parseInt(request.getParameter("idDelete")));
                     response.sendRedirect(request.getParameter("requestURL"));
-                     response.setIntHeader("Refresh", 1);
+                    
                 }
             }else if(request.getParameter("show")!=null){
                 response.sendRedirect("showCar.jsp");
@@ -69,7 +69,7 @@ public class Carrito extends HttpServlet {
                         Integer.parseInt(request.getParameter("idDeleteT"))
                 );
                 response.sendRedirect(request.getParameter("requestURL"));
-                 response.setIntHeader("Refresh", 1);
+                
             }else if(request.getParameter("stillShopping")!=null){
                 response.sendRedirect("index.jsp");
             }

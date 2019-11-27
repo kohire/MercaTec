@@ -4,29 +4,29 @@
 <xsd:import namespace="http://carrito.mercatec/" schemaLocation="http://localhost:8080/CarritoWS/CarritoWS?xsd=1" />
 </xsd:schema>
 </types>
-<message name="insertProductCarrito">
-<part name="parameters" element="tns:insertProductCarrito" />
-</message>
 <message name="deleteProductCarrito">
 <part name="parameters" element="tns:deleteProductCarrito" />
 </message>
+<message name="insertProductCarrito">
+<part name="parameters" element="tns:insertProductCarrito" />
+</message>
 <portType name="CarritoWS">
-<operation name="insertProductCarrito">
-<input wsam:Action="http://carrito.mercatec/CarritoWS/insertProductCarrito" message="tns:insertProductCarrito" />
-</operation>
 <operation name="deleteProductCarrito">
 <input wsam:Action="http://carrito.mercatec/CarritoWS/deleteProductCarrito" message="tns:deleteProductCarrito" />
+</operation>
+<operation name="insertProductCarrito">
+<input wsam:Action="http://carrito.mercatec/CarritoWS/insertProductCarrito" message="tns:insertProductCarrito" />
 </operation>
 </portType>
 <binding name="CarritoWSPortBinding" type="tns:CarritoWS">
 <soap:binding transport="http://schemas.xmlsoap.org/soap/http" style="document" />
-<operation name="insertProductCarrito">
+<operation name="deleteProductCarrito">
 <soap:operation soapAction="" />
 <input>
 <soap:body use="literal" />
 </input>
 </operation>
-<operation name="deleteProductCarrito">
+<operation name="insertProductCarrito">
 <soap:operation soapAction="" />
 <input>
 <soap:body use="literal" />

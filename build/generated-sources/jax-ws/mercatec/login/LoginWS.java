@@ -26,18 +26,6 @@ public interface LoginWS {
 
     /**
      * 
-     * @return
-     *     returns java.lang.String
-     */
-    @WebMethod
-    @WebResult(targetNamespace = "")
-    @RequestWrapper(localName = "userType", targetNamespace = "http://login.mercatec/", className = "mercatec.login.UserType")
-    @ResponseWrapper(localName = "userTypeResponse", targetNamespace = "http://login.mercatec/", className = "mercatec.login.UserTypeResponse")
-    @Action(input = "http://login.mercatec/loginWS/userTypeRequest", output = "http://login.mercatec/loginWS/userTypeResponse")
-    public String userType();
-
-    /**
-     * 
      * @param pass
      * @param nombre
      * @return
@@ -53,5 +41,17 @@ public interface LoginWS {
         String nombre,
         @WebParam(name = "pass", targetNamespace = "")
         String pass);
+
+    /**
+     * 
+     * @return
+     *     returns java.lang.String
+     */
+    @WebMethod
+    @WebResult(targetNamespace = "")
+    @RequestWrapper(localName = "userType", targetNamespace = "http://login.mercatec/", className = "mercatec.login.UserType")
+    @ResponseWrapper(localName = "userTypeResponse", targetNamespace = "http://login.mercatec/", className = "mercatec.login.UserTypeResponse")
+    @Action(input = "http://login.mercatec/loginWS/userTypeRequest", output = "http://login.mercatec/loginWS/userTypeResponse")
+    public String userType();
 
 }
