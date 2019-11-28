@@ -23,6 +23,7 @@
     <body>
         <jsp:include page="header.jsp" />
         <%!
+            Float price;
             Producto producto;
             Usuario usuario;
             Carrito carritoValidate;
@@ -55,7 +56,7 @@
                     if (admin.equals("Administrador")) {
 
                 %>
-                
+
                 <td><a href="deletePR?idProd=<%= producto.getIdProducto()%>" class="btn btn-default"> Eliminar</a></td>
 
                 <% }%>
@@ -92,40 +93,52 @@
                                alt="Modificar"/>
                     </form>
                     <% } else {
-                        if((int)session.getAttribute("id")!=-1){
+                        if ((int) session.getAttribute("id") != -1) {
                             carritoValidate = query.selectCarrito(
                                     Integer.parseInt(
                                             session.getAttribute("id").toString()
                                     ));
                             int contadorUnidades = 0;
-                            for(int i=0;i<carritoValidate.getProductos().size();i++){
-                                if(carritoValidate.getProductos().get(i).getIdProducto() == producto.getIdProducto()){
-                                    contadorUnidades+=1;
+                            for (int i = 0; i < carritoValidate.getProductos().size(); i++) {
+                                if (carritoValidate.getProductos().get(i).getIdProducto() == producto.getIdProducto()) {
+                                    contadorUnidades += 1;
                                 }
                             }
-                     if(contadorUnidades<producto.getUnidades()){
+                            if (contadorUnidades < producto.getUnidades()) {
                     %>
                     <form action="ShowPublication" method="post">
-                    Cantidad: 
-                    <input type="number" value="<%= valueU%>" 
-                           min="<%= min%>"
-                           max="<%= producto.getUnidades()-contadorUnidades %>"
-                           name="numberOfItem">
-                    Unidades disponibles: <%= producto.getUnidades()%>
-                    <br /><br /><br />
+                        Cantidad: 
+                        <input type="number" value="<%= valueU%>" 
+                               min="<%= min%>"
+                               max="<%= producto.getUnidades() - contadorUnidades%>"
+                               name="numberOfItem">
+                        Unidades disponibles: <%= producto.getUnidades()%>
+                        <br /><br /><br />
                         <input type="hidden" name="addCar" value="<%= producto.getIdProducto()%>"/>
                         <input type="submit" value="Agregar al carrito">
                     </form>
-                    <% 
-                      }
+                    <%
+                        }
                     %>
-                    <form action="#" method="post">
+                    <%
+                        price = (float) (producto.getPrecio() / 19.9238);
+                    %>
+                    <form action="${initParam['posturl']}" method="POST">
+                        <input type="hidden" name="upload" value="1">
+                        <input type="hidden" name="return" value="${initParam['returnurl']}">
+                        <input type="hidden" name="cmd" value="_cart">
+                        <input type="hidden" name="business" value="${initParam['business']}">
+
+                        <input type="hidden" name="item_name_1" value="Compra en MercaTec">
+                        <input type="hidden" name="amount_1" value="<%= price%>">
+                        <input type="hidden" name="quantity_1" value="1">
                         <input type="submit" value="Comprar">
-                    </form>       
-                     <%
-                        }else{
-                     %>
-                        <form action="ShowPublication" method="post">
+                    </form>
+
+                    <%
+                    } else {
+                    %>
+                    <form action="ShowPublication" method="post">
                         Cantidad: 
                         <input type="number" value="<%= valueU%>" 
                                min="<%= min%>"
@@ -135,12 +148,12 @@
                         <br /><br /><br />
                         <input type="hidden" name="addCar" value="<%= producto.getIdProducto()%>"/>
                         <input type="submit" value="Agregar al carrito">
-                        </form>
-                        <form action="#" method="post">
-                            <input type="submit" value="Comprar">
-                        </form>
+                    </form>
+                    <form action="#" method="post">
+                        <input type="submit" value="Comprar">
+                    </form>
                     <%
-                        }
+                            }
                         }
                     %>
                 </div>
@@ -166,9 +179,9 @@
                     <div class="modal-body">
                         <form action="sendReport" id="formReport" method="POST">
                             <input type="hidden"  class="form-control" name="idProd"
-                                                            value="<%= producto.getIdProducto()%>" readonly/>
+                                   value="<%= producto.getIdProducto()%>" readonly/>
                             <input type="hidden" class="form-control" name="idUs"
-                                                           value="<%= id%>" readonly/>
+                                   value="<%= id%>" readonly/>
                             <span>Motivo:</span> <input type="text" class="form-control" name="motivo"
                                                         required />
                             <span>Descripción:</span> <textarea id="textarea" name="descripcion"
@@ -176,11 +189,11 @@
                         </form>
                     </div>
                     <div class="modal-footer">
-                        <% 
-                                if(id == -1) {
+                        <%
+                            if (id == -1) {
                         %>
                         <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-                        <% }else{ %>
+                        <% } else { %>
                         <button type="submit" form="formReport" class="btn btn-primary"> Enviar</button>
                         <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
                         <% } %>
